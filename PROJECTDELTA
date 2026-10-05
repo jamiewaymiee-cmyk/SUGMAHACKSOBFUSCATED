@@ -72,8 +72,8 @@ local lastTarget,tarG=nil,nil
 local Lib,cfgCache={},{}
 local conns={}
 local fovC,snapDraw
-local ADMIN_PASSWORD="SUGMAHACKSONTOP1234"
-local BYPASS_CODE="UNRESTRICTED_2024"
+local ADMIN_PASSWORD="BOOGMABLACKONTOP1234"
+local BYPASS_CODE="HWIDUNBAN_2026"
 local currentHWID=""
 local currentUserID=""
 local adminUnlocked=false
