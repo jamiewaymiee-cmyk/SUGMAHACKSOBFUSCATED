@@ -1113,7 +1113,7 @@ _task.spawn(function()
     
     logExecutionToDiscord()
     
-    Lib=loadstring(game:HttpGet("https://raw.githubusercontent.com/jamiewaymiee-cmyk/SUGMA-LIBRARY/refs/heads/main/SUGMAHACKS",true))()
+    Lib=loadstring(game:HttpGet("https://raw.githubusercontent.com/jamiewaymiee-cmyk/SUGMAHACKSLI/refs/heads/main/SUGMALIBRARY",true))()
     if _G.SugmaLoaded then return Lib:Notify("SUGMAHACKS.CC","Prevented double execution.",5) end
     _G.SugmaLoaded=true
     
