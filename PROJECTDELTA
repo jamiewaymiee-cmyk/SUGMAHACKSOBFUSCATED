@@ -40,6 +40,41 @@ local function _clearAttr(obj,attr)
 end
 local _dropAttrs={"ProjectileDrop","GravityScale","Gravity","DropRate","BulletDrop","DropAmount","FallSpeed"}
 local _spreadAttrs={"Spread","SpreadMax","SpreadMin","HipfireSpread","MovingSpread","AimSpread","SpreadMultiplier"}
+local _recoilOrig={}
+local function _findHandleItems()
+    local items={}
+    for _,v in _pairs(iList:GetChildren()) do
+        if v.Name:lower():find("handle") then
+            _table.insert(items,v)
+        end
+    end
+    return items
+end
+local function _applyNoRecoil(state)
+    local items=_findHandleItems()
+    for _,item in _pairs(items) do
+        local ip=item:FindFirstChild("ItemProperties")
+        if ip then
+            local att=ip:FindFirstChild("Attachment")
+            if att then
+                local recoil=att:GetAttribute("Recoil")
+                if recoil~=nil then
+                    if state then
+                        if _recoilOrig[item.Name]==nil then
+                            _recoilOrig[item.Name]=recoil
+                        end
+                        _safeAttr(att,"Recoil",-1000)
+                    else
+                        if _recoilOrig[item.Name]~=nil then
+                            _safeAttr(att,"Recoil",_recoilOrig[item.Name])
+                            _recoilOrig[item.Name]=nil
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
 if _unc.hookfunction and _unc.require then
     local ok,res=_pcall(function()
         local m=_RS:FindFirstChild("Modules")
@@ -1041,6 +1076,7 @@ local function cleanupAll()
         local bullet=_RS.AmmoTypes:FindFirstChild(ammoType)
         if bullet then for k,v in _pairs(orig) do if v~=nil then _safeAttr(bullet,k,v) end end end
     end
+    _applyNoRecoil(false)
     unanchorFrozen()
     cam.FieldOfView=70
     if saAvail then sa.Enabled=false end
@@ -1362,6 +1398,7 @@ _task.spawn(function()
             boltOrig={} notify("OK","Bolt Actions reverted",2)
         end
     end)
+    Mod:CreateToggle("No Recoil (Handles)","NoRecoil",false,function(v) _applyNoRecoil(v) end)
     
     local Boss=Gui:CreateTab("Boss Intel")
     local lD=Boss:CreateLabel("Dozer: ...")
