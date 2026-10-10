@@ -1184,11 +1184,10 @@ _task.spawn(function()
     
     if saAvail then
         local SATab=Gui:CreateTab("Silent Aim")
-        SATab:CreateToggle("Enable Silent Aim","SilentAimToggle",false,function(v) sa.Enabled=v end)
-        SATab:CreateToggle("Wall Check","SilentWallCheck",true,function(v) sa.WallCheck=v end)
-        SATab:CreateToggle("Prediction","SilentPrediction",true,function(v) sa.Prediction=v end)
-        SATab:CreateToggle("No Recoil","SilentNoRecoil",false,function(v) sa.NoRecoil=v end)
-        SATab:CreateToggle("No Spread","SilentNoSpread",false,function(v) sa.NoSpread=v end)
+        SATab:CreateToggle("Enable Silent Aim","SilentAimToggle",false,function(v) sa.Enabled=v end,1)
+        SATab:CreateToggle("Wall Check","SilentWallCheck",true,function(v) sa.WallCheck=v end,2)
+        SATab:CreateToggle("Prediction","SilentPrediction",true,function(v) sa.Prediction=v end,3)
+        SATab:CreateToggle("No Spread","SilentNoSpread",false,function(v) sa.NoSpread=v end,4)
         SATab:CreateToggle("No Drop","SilentNoDrop",false,function(v)
             sa.NoDrop=v
             for ammoType,_ in _pairs(_oDrp) do
@@ -1198,78 +1197,78 @@ _task.spawn(function()
                     else _safeAttr(bullet,"ProjectileDrop",_oDrp[ammoType]) end
                 end
             end
-        end)
-        SATab:CreateToggle("Bullet Drop Compensation","SilentBulletDrop",true,function(v) sa.BulletDrop=v end)
+        end,5)
+        SATab:CreateToggle("Bullet Drop Compensation","SilentBulletDrop",true,function(v) sa.BulletDrop=v end,6)
         SATab:CreateToggle("Bullet Calc (Physics)","SilentBulletCalc",false,function(v)
             sa.BulletCalc=v
             if v then notify("Bullet Calc","Full physics calculation enabled",2) end
-        end)
+        end,7)
         SATab:CreateToggle("Snaplines","SilentSnaplines",false,function(v)
             sa.Snaplines=v
             if not v and snapDraw then snapDraw.Visible=false end
-        end)
-		SATab:CreateToggle("No Recoil","NoRecoil",false,function(v) _applyNoRecoil(v) end)
-        SATab:CreateToggle("Freeze Target","SilentFreezeTarget",false,function(v) sa.FreezeTarget=v end)
-        SATab:CreateDropdown("Hitbox","SilentHitPart",{"Head","UpperTorso","HumanoidRootPart"},function(v) sa.HitPart=v end)
-        SATab:CreateToggle("Share FOV with Aimbot","SilentSharedFOV",true,function(v) sa.SharedFOV=v end)
-        SATab:CreateToggle("Show FOV","SilentShowFOV",false)
+        end,8)
+        SATab:CreateToggle("Freeze Target","SilentFreezeTarget",false,function(v) sa.FreezeTarget=v end,9)
+        SATab:CreateDropdown("Hitbox","SilentHitPart",{"Head","UpperTorso","HumanoidRootPart"},function(v) sa.HitPart=v end,10)
+        SATab:CreateToggle("Share FOV with Aimbot","SilentSharedFOV",true,function(v) sa.SharedFOV=v end,11)
+        SATab:CreateToggle("Show FOV","SilentShowFOV",false,12)
         SATab:CreateSlider("FOV Size","SilentFOV",10,800,100,function(v)
             sa.FOV=v
             if sa.SharedFOV then fovR=v end
-        end)
+        end,13)
     else
         local SATab=Gui:CreateTab("Silent Aim")
-        SATab:CreateLabel("SILENT AIM UNAVAILABLE")
-        if not _unc.hookfunction then SATab:CreateLabel("Reason: hookfunction not supported")
-        elseif not _unc.require then SATab:CreateLabel("Reason: require not supported")
-        else SATab:CreateLabel("Reason: Bullet module not found") end
+        SATab:CreateLabel("SILENT AIM UNAVAILABLE",1)
+        if not _unc.hookfunction then SATab:CreateLabel("Reason: hookfunction not supported",2)
+        elseif not _unc.require then SATab:CreateLabel("Reason: require not supported",2)
+        else SATab:CreateLabel("Reason: Bullet module not found",2) end
     end
     
     local Cmbt=Gui:CreateTab("Aimbot")
-    Cmbt:CreateToggle("Lock Aim","AimbotToggle",false)
-    Cmbt:CreateToggle("Freeze Target","FreezeTarget",false)
-    Cmbt:CreateDropdown("Freeze Target Mode","FreezeTargetMode",{"Always","Hold","Toggle"},function(v) freezeMode=v end)
+    Cmbt:CreateToggle("Lock Aim","AimbotToggle",false,nil,1)
+    Cmbt:CreateToggle("Freeze Target","FreezeTarget",false,nil,2)
+    Cmbt:CreateDropdown("Freeze Target Mode","FreezeTargetMode",{"Always","Hold","Toggle"},function(v) freezeMode=v end,3)
     Cmbt:CreateKeybind("Freeze Target Key","FreezeTargetKey",Enum.KeyCode.F,function()
         if freezeMode=="Toggle" then freezeActive=not freezeActive notify("Freeze Target",freezeActive and "Enabled" or "Disabled",2) end
-    end)
-    Cmbt:CreateToggle("Zero Aimbot With Viewmodel","ZeroAimVM",false,function(v) zeroVM=v if not v then vmAimPart=nil end end)
-    Cmbt:CreateKeybind("Aim Key","AimKey",Enum.UserInputType.MouseButton2)
-    Cmbt:CreateDropdown("Hitbox","AimPart",{"Head","UpperTorso","HumanoidRootPart"},function(v) aimP=v end)
-    Cmbt:CreateSlider("Smoothness (0=Raw)","AimSens",0,0.99,0,function(v) sens=v end)
-    Cmbt:CreateToggle("Draw FOV","ShowFOV",false)
+    end,4)
+    Cmbt:CreateToggle("Zero Aimbot With Viewmodel","ZeroAimVM",false,function(v) zeroVM=v if not v then vmAimPart=nil end end,5)
+    Cmbt:CreateKeybind("Aim Key","AimKey",Enum.UserInputType.MouseButton2,nil,6)
+    Cmbt:CreateDropdown("Hitbox","AimPart",{"Head","UpperTorso","HumanoidRootPart"},function(v) aimP=v end,7)
+    Cmbt:CreateSlider("Smoothness (0=Raw)","AimSens",0,0.99,0,function(v) sens=v end,8)
+    Cmbt:CreateToggle("Draw FOV","ShowFOV",false,nil,9)
     Cmbt:CreateSlider("FOV Size","FOVRad",10,800,100,function(v)
         fovR=v
         if sa.SharedFOV then sa.FOV=v end
-    end)
-    Cmbt:CreateToggle("Auto Fire","TriggerBot",false)
-    Cmbt:CreateDropdown("Fire Mode","TriggerMode",{"Hold Key","Always Auto"},function(v) trigM=v end)
-    Cmbt:CreateKeybind("Fire Key","TriggerKey",Enum.UserInputType.MouseButton1)
+    end,10)
+    Cmbt:CreateToggle("Auto Fire","TriggerBot",false,nil,11)
+    Cmbt:CreateDropdown("Fire Mode","TriggerMode",{"Hold Key","Always Auto"},function(v) trigM=v end,12)
+    Cmbt:CreateKeybind("Fire Key","TriggerKey",Enum.UserInputType.MouseButton1,nil,13)
+    Cmbt:CreateToggle("No Recoil","NoRecoil",false,function(v) _applyNoRecoil(v) end,14)
     
     local EspTab=Gui:CreateTab("ESP")
-    EspTab:CreateToggle("Player Chams","PlayerESP",false,function(v) espP=v if not v then clrEsp() end end)
-    EspTab:CreateToggle("Weapon ESP","WeaponESP",false,function(v) espW=v end)
-    EspTab:CreateToggle("Boss Chams","BossESP",false,function(v) espB=v if not v then clrEsp() end end)
-    EspTab:CreateToggle("AI Chams","AiESP",false,function(v) espA=v if not v then clrEsp() end end)
-    EspTab:CreateToggle("Dead Body ESP","DeadEsp",false)
-    EspTab:CreateToggle("Name Tag","EspNameTag",false,function(v) espNameTag=v end)
+    EspTab:CreateToggle("Player Chams","PlayerESP",false,function(v) espP=v if not v then clrEsp() end end,1)
+    EspTab:CreateToggle("Weapon ESP","WeaponESP",false,function(v) espW=v end,2)
+    EspTab:CreateToggle("Boss Chams","BossESP",false,function(v) espB=v if not v then clrEsp() end end,3)
+    EspTab:CreateToggle("AI Chams","AiESP",false,function(v) espA=v if not v then clrEsp() end end,4)
+    EspTab:CreateToggle("Dead Body ESP","DeadEsp",false,nil,5)
+    EspTab:CreateToggle("Name Tag","EspNameTag",false,function(v) espNameTag=v end,6)
     EspTab:CreateToggle("Box ESP","EspBox",false,function(v)
         espBox=v
         if not v and _unc.Drawing then for _,e in _pairs(espS) do if e.BX then e.BX:Remove() e.BX=nil end end end
-    end)
+    end,7)
     EspTab:CreateToggle("Skeleton ESP","EspSkeleton",false,function(v)
         espSkel=v
         if not v and _unc.Drawing then for _,e in _pairs(espS) do if e.SK then for _,l in _pairs(e.SK) do _pcall(function() l:Remove() end) end e.SK=nil end end end
-    end)
+    end,8)
     EspTab:CreateToggle("Velocity Arrow","EspVelocity",false,function(v)
         espVel=v
         if not v and _unc.Drawing then for _,e in _pairs(espS) do if e.VL then _pcall(function() e.VL:Remove() end) e.VL=nil end end end
-    end)
+    end,9)
     EspTab:CreateToggle("Look Vector","EspLookVec",false,function(v)
         espLook=v
         if not v and _unc.Drawing then for _,e in _pairs(espS) do if e.LV then _pcall(function() e.LV:Remove() end) e.LV=nil end end end
-    end)
-    EspTab:CreateToggle("Distance","EspDistance",false,function(v) espDist=v end)
-    EspTab:CreateToggle("Randomize Colors","EspRandColor",false,function(v) espRand=v if not v then playerColors={} end end)
+    end,10)
+    EspTab:CreateToggle("Distance","EspDistance",false,function(v) espDist=v end,11)
+    EspTab:CreateToggle("Randomize Colors","EspRandColor",false,function(v) espRand=v if not v then playerColors={} end end,12)
     
     local Vis=Gui:CreateTab("Visuals")
     Vis:CreateToggle("FullBright","Fullbright",false,function(v)
@@ -1278,33 +1277,33 @@ _task.spawn(function()
             _L.ClockTime=origLight.ClockTime _L.Brightness=origLight.Brightness
             _L.GlobalShadows=origLight.GlobalShadows _L.Ambient=origLight.Ambient _L.OutdoorAmbient=origLight.OutdoorAmbient
         end
-    end)
+    end,1)
     Vis:CreateToggle("Soft FullBright","SoftFullbright",false,function(v)
         sfbEn=v
         if not v and not fbEn then
             _L.ClockTime=origLight.ClockTime _L.Brightness=origLight.Brightness
             _L.GlobalShadows=origLight.GlobalShadows _L.Ambient=origLight.Ambient _L.OutdoorAmbient=origLight.OutdoorAmbient
         end
-    end)
-    Vis:CreateSlider("World Time","TimeVal",0,24,12)
-    Vis:CreateToggle("Remove Visor","NoVisor",false,function(v) nvEn=v end)
+    end,2)
+    Vis:CreateSlider("World Time","TimeVal",0,24,12,nil,3)
+    Vis:CreateToggle("Remove Visor","NoVisor",false,function(v) nvEn=v end,4)
     Vis:CreateToggle("No Fog","NoFog",false,function(v)
         noFog=v
         if v then _L.FogEnd=1e6 _L.FogStart=1e6
         else _L.FogEnd=origFog.End _L.FogStart=origFog.Start _L.FogColor=origFog.Color end
-    end)
-    Vis:CreateToggle("Enable FOV Changer","EnableFOV",false)
-    Vis:CreateSlider("Camera FOV","CamFOV",10,120,70)
-    Vis:CreateSlider("Zoom FOV Amount","ZoomFOV",1,120,30)
-    Vis:CreateKeybind("Zoom Key","ZoomKey",Enum.KeyCode.Z)
-    Vis:CreateToggle("Allow ADS Zoom (RMB)","AllowADS",true,function(v) fovZoomOff=not v end)
+    end,5)
+    Vis:CreateToggle("Enable FOV Changer","EnableFOV",false,nil,6)
+    Vis:CreateSlider("Camera FOV","CamFOV",10,120,70,nil,7)
+    Vis:CreateSlider("Zoom FOV Amount","ZoomFOV",1,120,30,nil,8)
+    Vis:CreateKeybind("Zoom Key","ZoomKey",Enum.KeyCode.Z,nil,9)
+    Vis:CreateToggle("Allow ADS Zoom (RMB)","AllowADS",true,function(v) fovZoomOff=not v end,10)
     
     local PlyTab=Gui:CreateTab("Player")
-    PlyTab:CreateToggle("Dynamic Speedhack","DynSpeed",false)
-    PlyTab:CreateToggle("Tpwalk","TpWalk",false)
-    PlyTab:CreateSlider("Tpwalk Speed","TpWalkSpeed",0,0.3,0.05)
-    PlyTab:CreateToggle("Speedhack","Speedhack",false)
-    PlyTab:CreateToggle("Jesus Mode","Jesus",false,function(v) _G.JesusEnabled=v end)
+    PlyTab:CreateToggle("Dynamic Speedhack","DynSpeed",false,nil,1)
+    PlyTab:CreateToggle("Tpwalk","TpWalk",false,nil,2)
+    PlyTab:CreateSlider("Tpwalk Speed","TpWalkSpeed",0,0.3,0.05,nil,3)
+    PlyTab:CreateToggle("Speedhack","Speedhack",false,nil,4)
+    PlyTab:CreateToggle("Jesus Mode","Jesus",false,function(v) _G.JesusEnabled=v end,5)
     
     local InvTab=Gui:CreateTab("InvChecker")
     InvTab:CreateToggle("InvViewer","InvViewer",false,function(v)
@@ -1313,15 +1312,15 @@ _task.spawn(function()
             clrDrw() iChk=false
             _pcall(function() local g=lplr.PlayerGui:FindFirstChild("_SysGui9") if g then g:Destroy() end end)
         end
-    end)
+    end,1)
     InvTab:CreateToggle("Image Mode","InvImageMode",false,function(v)
         invImgMode=v clrDrw()
         _pcall(function() local g=lplr.PlayerGui:FindFirstChild("_SysGui9") if g then g:Destroy() end end)
-    end)
-    InvTab:CreateKeybind("View Key","InvKey",Enum.KeyCode.V)
+    end,2)
+    InvTab:CreateKeybind("View Key","InvKey",Enum.KeyCode.V,nil,3)
     
     local Mod=Gui:CreateTab("Gun Mod")
-    Mod:CreateDropdown("Scope Type","SelectedSight",sTable,function(v) selSight=v end)
+    Mod:CreateDropdown("Scope Type","SelectedSight",sTable,function(v) selSight=v end,1)
     Mod:CreateButton("Force Scope (Held)",function()
         local g=getHld(lplr.Character)
         if not g then return notify("FAIL","Hold Gun!",2) end
@@ -1342,7 +1341,7 @@ _task.spawn(function()
             n:SetAttribute("Slot","Sight") n:SetAttribute("ScriptAdded",true)
             notify("OK","Scope Attached",2)
         end
-    end)
+    end,2)
     Mod:CreateButton("Clear Scope (Held)",function()
         local g=getHld(lplr.Character)
         if not g then return end
@@ -1352,9 +1351,9 @@ _task.spawn(function()
                 if c:GetAttribute("Slot")=="Sight" and c:GetAttribute("ScriptAdded") then c:Destroy() notify("OK","Cleared",2) end
             end
         end
-    end)
+    end,3)
     local selFM="Semi"
-    Mod:CreateDropdown("FireMode","SelectedFireMode",{"Semi","Auto"},function(v) selFM=v end)
+    Mod:CreateDropdown("FireMode","SelectedFireMode",{"Semi","Auto"},function(v) selFM=v end,4)
     Mod:CreateButton("Set FireMode",function()
         local g=getHld(lplr.Character)
         if not g then return notify("FAIL","Hold Gun!",2) end
@@ -1363,7 +1362,7 @@ _task.spawn(function()
         if not fmChg[g] then fmChg[g]={FireMode=o:GetAttribute("FireMode"),FireModeIndex=o:GetAttribute("FireModeIndex")} end
         o:SetAttribute("FireMode",selFM) o:SetAttribute("FireModeIndex",2) o:SetAttribute("FireModeIndexS",2)
         notify("OK","FireMode set to "..selFM,2)
-    end)
+    end,5)
     Mod:CreateButton("Revert FireMode",function()
         local c=0
         for gn,orig in _pairs(fmChg) do
@@ -1377,7 +1376,7 @@ _task.spawn(function()
             fmChg[gn]=nil
         end
         notify("OK","Reverted "..c.." gun(s)",2)
-    end)
+    end,6)
     Mod:CreateToggle("Semi Bolt Actions","BoltSemiToggle",false,function(v)
         if v then
             for _,item in _pairs(pInv:GetChildren()) do
@@ -1398,19 +1397,18 @@ _task.spawn(function()
             end
             boltOrig={} notify("OK","Bolt Actions reverted",2)
         end
-    end)
-    SATab:CreateToggle("No Recoil","NoRecoil",false,function(v) _applyNoRecoil(v) end)
+    end,7)
     
     local Boss=Gui:CreateTab("Boss Intel")
-    local lD=Boss:CreateLabel("Dozer: ...")
-    local lW=Boss:CreateLabel("Whisper: ...")
-    local lA=Boss:CreateLabel("Anton: ...")
-    Boss:CreateToggle("Notify Dozer","NotifDozer",true)
-    Boss:CreateToggle("Notify Whisper","NotifWhisper",true)
-    Boss:CreateToggle("Notify Anton","NotifAnton",true)
+    local lD=Boss:CreateLabel("Dozer: ...",1)
+    local lW=Boss:CreateLabel("Whisper: ...",2)
+    local lA=Boss:CreateLabel("Anton: ...",3)
+    Boss:CreateToggle("Notify Dozer","NotifDozer",true,nil,4)
+    Boss:CreateToggle("Notify Whisper","NotifWhisper",true,nil,5)
+    Boss:CreateToggle("Notify Anton","NotifAnton",true,nil,6)
     
     local Msc=Gui:CreateTab("Misc")
-    Msc:CreateDropdown("Search for gun","FindGunName",gList,function(v) tarG=v end)
+    Msc:CreateDropdown("Search for gun","FindGunName",gList,function(v) tarG=v end,1)
     Msc:CreateButton("Scan Server",function()
         if not tarG then return notify("FAIL","Select Gun",2) end
         local c=0
@@ -1427,8 +1425,8 @@ _task.spawn(function()
             end
         end
         if c==0 then notify("404","None Found",3) end
-    end)
-    Msc:CreateDropdown("Tac Device","TacDevice",{"Flashlight","LaserPointer","PEQ15","None"},function(v) selDev=v end)
+    end,2)
+    Msc:CreateDropdown("Tac Device","TacDevice",{"Flashlight","LaserPointer","PEQ15","None"},function(v) selDev=v end,3)
     Msc:CreateButton("Remove Landmines",function()
         local z=_W:FindFirstChild("AiZones")
         if z then
@@ -1439,48 +1437,48 @@ _task.spawn(function()
             end
             notify("SUCCESS","Removed "..c.." mines.",3)
         else notify("ERROR","AiZones not found.",3) end
-    end)
-    Msc:CreateToggle("Force Tac","DeviceTog",false,function(v) tacTog(v,true) end)
+    end,4)
+    Msc:CreateToggle("Force Tac","DeviceTog",false,function(v) tacTog(v,true) end,5)
     Msc:CreateKeybind("Tac Key","TacKey",Enum.KeyCode.T,function()
         local t=not(Lib.Flags.DeviceTog or false)
         Lib.Flags.DeviceTog=t tacTog(t,false)
-    end)
+    end,6)
     
     local SettingsTab=Gui:CreateTab("Settings")
     SettingsTab:CreateToggle("Auto-Save Config","AutoSaveToggle",false,function(v)
         Cfg.AutoSave=v
         notify("Auto-Save",v and "Enabled - Saving every "..Cfg.SaveInterval.."s" or "Disabled",2)
-    end)
-    SettingsTab:CreateSlider("Auto-Save Interval","AutoSaveInterval",10,120,30,function(v) Cfg.SaveInterval=v end)
+    end,1)
+    SettingsTab:CreateSlider("Auto-Save Interval","AutoSaveInterval",10,120,30,function(v) Cfg.SaveInterval=v end,2)
     local cfgDrop
     _task.spawn(function()
         cfgCache=_cfgList()
-        cfgDrop=SettingsTab:CreateDropdown("Select Config","ConfigSelect",cfgCache,function(v) Cfg.CurrentConfig=v end)
+        cfgDrop=SettingsTab:CreateDropdown("Select Config","ConfigSelect",cfgCache,function(v) Cfg.CurrentConfig=v end,3)
     end)
     SettingsTab:CreateTextBoxSend("New Config Name","NewConfigName","",function(content)
         if content and content~="" then
             Cfg.CurrentConfig=content
             if saveConfig(content) then cfgCache=_cfgList() notify("Config","Created: "..content,2) end
         end
-    end)
-    SettingsTab:CreateButton("Save Current Config",function() saveConfig(Cfg.CurrentConfig) end)
-    SettingsTab:CreateButton("Load Selected Config",function() loadConfig(Lib.Flags.ConfigSelect or Cfg.CurrentConfig) end)
+    end,4)
+    SettingsTab:CreateButton("Save Current Config",function() saveConfig(Cfg.CurrentConfig) end,5)
+    SettingsTab:CreateButton("Load Selected Config",function() loadConfig(Lib.Flags.ConfigSelect or Cfg.CurrentConfig) end,6)
     SettingsTab:CreateButton("Delete Selected Config",function()
         local toDel=Lib.Flags.ConfigSelect or Cfg.CurrentConfig
         if deleteConfig(toDel) then
             cfgCache=_cfgList()
             Cfg.CurrentConfig=cfgCache[1] or "Default"
         end
-    end)
+    end,7)
     SettingsTab:CreateButton("Refresh Config List",function()
         cfgCache=_cfgList()
         notify("Config","Refreshed - "..#cfgCache.." configs found",2)
-    end)
-    SettingsTab:CreateKeybind("Quick Save Key","QuickSaveKey",Enum.KeyCode.F5,function() saveConfig(Cfg.CurrentConfig) end)
+    end,8)
+    SettingsTab:CreateKeybind("Quick Save Key","QuickSaveKey",Enum.KeyCode.F5,function() saveConfig(Cfg.CurrentConfig) end,9)
     local adminPassInput=""
     SettingsTab:CreateTextBox("Admin Password","AdminPassInput","",function(v)
         adminPassInput=v
-    end)
+    end,10)
     SettingsTab:CreateButton("Submit Admin Password",function()
         if adminPassInput==ADMIN_PASSWORD then
             if not adminUnlocked then
@@ -1491,23 +1489,25 @@ _task.spawn(function()
             notify("Admin","Incorrect Password",3)
         end
         adminPassInput=""
-    end)
-    SettingsTab:CreateButton("Destroy UI",function() cleanupAll() _task.wait(0.1) Lib:UIDelete() end)
-    SettingsTab:CreateLabel("UNC Features")
-    for feature,status in _pairs(_unc) do SettingsTab:CreateLabel(feature..": "..(status and "YES" or "NO")) end
-    SettingsTab:CreateLabel("Silent Aim: "..(saAvail and "Available" or "Unavailable"))
-    SettingsTab:CreateLabel("Last Config: "..(Cfg.LastConfig~="" and Cfg.LastConfig or "None"))
-    SettingsTab:CreateLabel("Current HWID: "..currentHWID)
+    end,11)
+    SettingsTab:CreateButton("Destroy UI",function() cleanupAll() _task.wait(0.1) Lib:UIDelete() end,12)
+    SettingsTab:CreateLabel("UNC Features",13)
+    local unc_order=114
+    for feature,status in _pairs(_unc) do SettingsTab:CreateLabel(feature..": "..(status and "YES" or "NO"),unc_order) unc_order=unc_order+1 end
+    local final_order=unc_order
+    SettingsTab:CreateLabel("Silent Aim: "..(saAvail and "Available" or "Unavailable"),final_order)
+    SettingsTab:CreateLabel("Last Config: "..(Cfg.LastConfig~="" and Cfg.LastConfig or "None"),final_order+1)
+    SettingsTab:CreateLabel("Current HWID: "..currentHWID,final_order+2)
     
     local AdminTab=nil
     local function buildAdminTab()
         if AdminTab then return end
         AdminTab=Gui:CreateTab("Admin")
-        AdminTab:CreateLabel("Admin Panel - Your HWID: "..currentHWID)
+        AdminTab:CreateLabel("Admin Panel - Your HWID: "..currentHWID,1)
         local banHwidInput=""
         local banUserIDInput=""
-        AdminTab:CreateTextBox("HWID To Ban","AdminBanHwid","",function(v) banHwidInput=v end)
-        AdminTab:CreateTextBox("User ID To Ban","AdminBanUserID","",function(v) banUserIDInput=v end)
+        AdminTab:CreateTextBox("HWID To Ban","AdminBanHwid","",function(v) banHwidInput=v end,2)
+        AdminTab:CreateTextBox("User ID To Ban","AdminBanUserID","",function(v) banUserIDInput=v end,3)
         AdminTab:CreateButton("Ban HWID/UserID",function()
             if banHwidInput=="" and banUserIDInput=="" then notify("Admin","Enter HWID or UserID first",2) return end
             if updateBannedList(banHwidInput~="" and banHwidInput or nil,banUserIDInput~="" and banUserIDInput or nil,true) then
@@ -1532,11 +1532,11 @@ _task.spawn(function()
             else
                 notify("Admin","Failed to ban",3)
             end
-        end)
+        end,4)
         local unbanHwidInput=""
         local unbanUserIDInput=""
-        AdminTab:CreateTextBox("HWID To Unban","AdminUnbanHwid","",function(v) unbanHwidInput=v end)
-        AdminTab:CreateTextBox("User ID To Unban","AdminUnbanUserID","",function(v) unbanUserIDInput=v end)
+        AdminTab:CreateTextBox("HWID To Unban","AdminUnbanHwid","",function(v) unbanHwidInput=v end,5)
+        AdminTab:CreateTextBox("User ID To Unban","AdminUnbanUserID","",function(v) unbanUserIDInput=v end,6)
         AdminTab:CreateButton("Unban HWID/UserID",function()
             if unbanHwidInput=="" and unbanUserIDInput=="" then notify("Admin","Enter HWID or UserID first",2) return end
             if updateBannedList(unbanHwidInput~="" and unbanHwidInput or nil,unbanUserIDInput~="" and unbanUserIDInput or nil,false) then
@@ -1546,14 +1546,14 @@ _task.spawn(function()
             else
                 notify("Admin","Failed to unban",3)
             end
-        end)
+        end,7)
         AdminTab:CreateButton("Refresh Ban List",function()
             _pcall(function()
                 fetchBannedData()
                 notify("Admin","Ban list refreshed",2)
             end)
-        end)
-        AdminTab:CreateLabel("Admin Mode Enabled")
+        end,8)
+        AdminTab:CreateLabel("Admin Mode Enabled",9)
     end
     
     _task.spawn(function()
