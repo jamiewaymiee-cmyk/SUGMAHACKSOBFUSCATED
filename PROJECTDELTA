@@ -1398,7 +1398,7 @@ _task.spawn(function()
             boltOrig={} notify("OK","Bolt Actions reverted",2)
         end
     end)
-    Mod:CreateToggle("No Recoil (Handles)","NoRecoil",false,function(v) _applyNoRecoil(v) end)
+    SATab:CreateToggle("No Recoil","NoRecoil",false,function(v) _applyNoRecoil(v) end)
     
     local Boss=Gui:CreateTab("Boss Intel")
     local lD=Boss:CreateLabel("Dozer: ...")
