@@ -1208,6 +1208,7 @@ _task.spawn(function()
             sa.Snaplines=v
             if not v and snapDraw then snapDraw.Visible=false end
         end)
+		SATab:CreateToggle("No Recoil","NoRecoil",false,function(v) _applyNoRecoil(v) end)
         SATab:CreateToggle("Freeze Target","SilentFreezeTarget",false,function(v) sa.FreezeTarget=v end)
         SATab:CreateDropdown("Hitbox","SilentHitPart",{"Head","UpperTorso","HumanoidRootPart"},function(v) sa.HitPart=v end)
         SATab:CreateToggle("Share FOV with Aimbot","SilentSharedFOV",true,function(v) sa.SharedFOV=v end)
